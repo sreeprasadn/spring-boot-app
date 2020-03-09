@@ -25,20 +25,17 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     
-    - name: Set Image name
-      run: imid=$(date +%s)
-    
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:${imid}
+      run: docker build . --file Dockerfile --tag my-image-name:v1
       
     - name: Authenticate to Package
       run: cat ~/GH_TOKEN.txt | docker login -u sreeprasadn --password-stdin 
     
     - name: Tag the image
-      run: docker tag my-image-name:${imid} docker.pkg.github.com/sreeprasadn/repository-name/IMAGE_NAME:VERSION
+      run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
 
     - name: Push image
-      run: docker push docker.pkg.github.com/sreeprasadn/repository-name/IMAGE_NAME:VERSION
+      run: docker push docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
 
   
     
