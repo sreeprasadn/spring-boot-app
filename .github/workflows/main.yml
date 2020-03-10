@@ -27,9 +27,16 @@ jobs:
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:v1
+    
+    - name: validating token
+      run: echo $GH_TOKEN 
+      with:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
     - name: Authenticate to Package
-      run: cat GH_TOKEN.txt | docker login -u sreeprasadn --password-stdin 
+      run: echo $GH_TOKEN | docker login -u sreeprasadn --password-stdin 
+      with:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
     
     - name: Tag the image
       run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
