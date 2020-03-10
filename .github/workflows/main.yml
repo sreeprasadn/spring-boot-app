@@ -31,7 +31,7 @@ jobs:
     - name: Authenticate to Package
       run: docker login -u sreeprasadn -p GITHUB_TOKEN docker.pkg.github.com 
       env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+        GITHUB_TOKEN: ${{secrets.PKG_TOKE}} 
     
     - name: Tag the image
       run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
