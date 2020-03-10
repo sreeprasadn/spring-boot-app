@@ -22,19 +22,16 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:v1
-    
-    - name: validating token
-      run: echo $GH_TOKEN  
-      
+          
     - name: Authenticate to Package
-      run: echo $GH_TOKEN | docker login -u sreeprasadn --password-stdin 
+      run: docker login -u sreeprasadn -p GITHUB_TOKEN docker.pkg.github.com 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
     
     - name: Tag the image
       run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
