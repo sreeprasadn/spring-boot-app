@@ -25,16 +25,16 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     
-    - name: Build the Docker image
+    - name: Build and Tag Docker image
       run: docker build . -t "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest" 
           
     - name: Authenticate to Package
       run: docker login -u sreeprasadn -p $GITHUB_TOKEN docker.pkg.github.com 
       env:
-        GITHUB_TOKEN: ${{secrets.PKG_TOKE}} 
+        GITHUB_TOKEN: ${{secrets.PKG_TOKEN}} 
     
- #   - name: Tag the image
- #     run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
+    - name: Delete Previous Build Image 
+      run: docker image rm  "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest"
 
     - name: Push image
       run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest"
