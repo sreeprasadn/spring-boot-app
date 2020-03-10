@@ -25,26 +25,17 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     
-    - name: Generate Unique time for docker image
-      run: export IMAGE_ID=$(date +%s)
-    
     - name: Build and Tag Docker image
-      run: docker build . -t "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:$IMAGE_ID" 
-      env:
-        IMAGE_ID : ${{env.IMAGE_ID}}    
+      run: docker build . -t "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:latest"   
             
     - name: Authenticate to Package
       run: docker login -u sreeprasadn -p $GITHUB_TOKEN docker.pkg.github.com 
       env:
         GITHUB_TOKEN: ${{secrets.PKG_TOKEN}} 
-    
-#    - name: Delete Previous Build Image 
-#      run: docker image rm  "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest"
 
     - name: Push image
-      run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:$IMAGE_ID"
-      env:
-        IMAGE_ID : ${{env.IMAGE_ID}} 
+      run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:latest"
+
 
   
     
