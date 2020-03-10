@@ -26,18 +26,18 @@ jobs:
       run: mvn -B package --file pom.xml
     
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:v1
+      run: docker build . -t "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest" 
           
     - name: Authenticate to Package
-      run: docker login -u sreeprasadn -p GITHUB_TOKEN docker.pkg.github.com 
+      run: docker login -u sreeprasadn -p $GITHUB_TOKEN docker.pkg.github.com 
       env:
         GITHUB_TOKEN: ${{secrets.PKG_TOKE}} 
     
-    - name: Tag the image
-      run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
+ #   - name: Tag the image
+ #     run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
 
     - name: Push image
-      run: docker push docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
+      run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/firmware-builder:latest"
 
   
     
