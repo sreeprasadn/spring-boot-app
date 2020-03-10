@@ -28,8 +28,8 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:v1
       
-#    - name: Authenticate to Package
-#      run: cat ~/GH_TOKEN.txt | docker login -u sreeprasadn --password-stdin 
+    - name: Authenticate to Package
+      run: cat GH_TOKEN.txt | docker login -u sreeprasadn --password-stdin 
     
     - name: Tag the image
       run: docker tag my-image-name:v1 docker.pkg.github.com/sreeprasadn/repository-name/my_image:v1
