@@ -30,7 +30,9 @@ jobs:
     
     - name: Build and Tag Docker image
       run: docker build . -t "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:$IMAGE_ID" 
-          
+      env:
+        IMAGE_ID : ${{env.IMAGE_ID}}    
+            
     - name: Authenticate to Package
       run: docker login -u sreeprasadn -p $GITHUB_TOKEN docker.pkg.github.com 
       env:
@@ -41,6 +43,8 @@ jobs:
 
     - name: Push image
       run: docker push "docker.pkg.github.com/$GITHUB_REPOSITORY/spring-app:$IMAGE_ID"
+      env:
+        IMAGE_ID : ${{env.IMAGE_ID}} 
 
   
     
